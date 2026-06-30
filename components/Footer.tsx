@@ -1,6 +1,10 @@
-﻿'use client'
+'use client'
 
 import Image from 'next/image'
+
+function openModal() {
+  window.dispatchEvent(new CustomEvent('open-partner-modal'))
+}
 
 export default function Footer() {
   return (
@@ -38,11 +42,11 @@ export default function Footer() {
             <div>
               <p className="text-xs uppercase tracking-widest mb-4 font-medium" style={{ color: '#6B8FA8' }}>Contact</p>
               <div className="flex flex-col gap-3">
-                <a href="mailto:contact@kiwiartisan.com" className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                <button onClick={openModal} className="text-sm text-left" style={{ color: 'rgba(255,255,255,0.7)' }}>
                   Brand partnerships
-                </a>
+                </button>
                 <a
-                  href="https://www.linkedin.com/company/artisan-direct-commerce"
+                  href="https://www.linkedin.com/company/artisan-dc"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm flex items-center gap-2"
@@ -63,11 +67,10 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Artisan Direct Commerce Ltd. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="mailto:contact@kiwiartisan.com" className="text-xs transition-colors" style={{ color: '#6B8FA8' }}>Contact</a>
+            <button onClick={openModal} className="text-xs transition-colors" style={{ color: '#6B8FA8' }}>Contact</button>
           </div>
         </div>
       </div>
     </footer>
   )
 }
-
