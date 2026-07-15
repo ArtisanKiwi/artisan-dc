@@ -167,7 +167,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="tr">
-            <span className="demo-flag">Sample data</span>
+            <span className="demo-flag" id="demo-flag" style={{ display: 'none' }}>Sample data</span>
             <div className="evt-wrap">
               <span className="evt-lbl">Event</span>
               <select id="evt"></select>
@@ -226,15 +226,15 @@ export default function DashboardPage() {
               <div className="kpi pos-val">
                 <div className="kpi-lbl">CX Engaged</div>
                 <div className="kpi-val" id="k-cx">—</div>
-                <div className="kpi-sub">Total customer touchpoints</div>
+                <div className="kpi-sub">Total stand interactions</div>
               </div>
               <div className="kpi">
-                <div className="kpi-lbl">Impressions</div>
+                <div className="kpi-lbl">Contacts Captured</div>
                 <div className="kpi-val" id="k-imp">—</div>
-                <div className="kpi-sub">Est. foot traffic engaged</div>
+                <div className="kpi-sub">Leads &amp; database adds</div>
               </div>
               <div className="kpi">
-                <div className="kpi-lbl">Emails Collected</div>
+                <div className="kpi-lbl">Email Signups</div>
                 <div className="kpi-val" id="k-email">—</div>
                 <div className="kpi-sub">Database growth</div>
               </div>
@@ -295,35 +295,60 @@ export default function DashboardPage() {
       {/* Dashboard logic */}
       <script dangerouslySetInnerHTML={{ __html: `
 (function(){
-  // ── CONFIG ────────────────────────────────────────────────
-  var PINS = { '2580': 'Artisan Co', '1234': 'Demo Brand', '2468': 'Best of the Bone' };
+  // ── CONFIG ───────────────────────────────────────────────
+  var PINS = { '2580': 'Artisan Co', '2468': 'Best of the Bone' };
   var pin = '', maxLen = 4;
 
-  // sample data keyed by brand
+  // Artisan Co: real rolling-12m show data. BOTB: placeholder pending Dave's figures.
   var DATA = {
     'Artisan Co': {
-      shows: [
-        { name:'Royal Easter Show',  cat:'Food & Bev', city:'Sydney',    date:'Apr 2025', rev:18400, units:312, cx:2100, flow:.18, major:true,  report:null },
-        { name:'Brisbane Ekka',      cat:'Food & Bev', city:'Brisbane',  date:'Aug 2025', rev:14200, units:244, cx:1650, flow:.15, major:true,  report:null },
-        { name:'Hobart Harvest Mkt', cat:'Food & Bev', city:'Hobart',    date:'Mar 2025', rev:6800,  units:140, cx:820,  flow:.17, major:false, report:null },
-        { name:'Melbourne Night Mkt',cat:'Food & Bev', city:'Melbourne', date:'Feb 2025', rev:5200,  units:110, cx:610,  flow:.18, major:false, report:null },
-        { name:'Adelaide Central',   cat:'Food & Bev', city:'Adelaide',  date:'Jan 2025', rev:4100,  units:88,  cx:480,  flow:.18, major:false, report:null },
+      aus: [
+        // Jul–Dec 2025 (within rolling 12m from today)
+        { name:'Melb Little Food Market',            cat:'Food & Bev',        city:'Melbourne', date:'Jul 2025', rev:16000, units:619,  cx:1096, cxt:274, aov:52, major:false },
+        { name:'Cairns Royal Show',                  cat:'City Agriculture',  city:'Cairns',    date:'Jul 2025', rev:5869,  units:271,  cx:480,  cxt:120, aov:49, major:true  },
+        { name:'Perth Good Food & Wine',             cat:'Food & Bev',        city:'Perth',     date:'Jul 2025', rev:14386, units:707,  cx:1204, cxt:301, aov:48, major:false },
+        { name:'Aus Home Show – Melbourne EEA',      cat:'Home & Lifestyle',  city:'Melbourne', date:'Aug 2025', rev:12677, units:438,  cx:760,  cxt:190, aov:67, major:false },
+        { name:'Brisbane Ekka',                      cat:'City Agriculture',  city:'Brisbane',  date:'Aug 2025', rev:39470, units:1625, cx:3336, cxt:834, aov:48, major:true  },
+        { name:'Adelaide Royal Show',                cat:'City Agriculture',  city:'Adelaide',  date:'Sep 2025', rev:36470, units:1267, cx:2428, cxt:607, aov:61, major:true  },
+        { name:'Aus Home Show – Brisbane EEA',       cat:'Home & Lifestyle',  city:'Brisbane',  date:'Sep 2025', rev:13814, units:560,  cx:940,  cxt:235, aov:60, major:false },
+        { name:'Perth Royal Show',                   cat:'City Agriculture',  city:'Perth',     date:'Sep 2025', rev:21571, units:982,  cx:1840, cxt:460, aov:47, major:true  },
+        { name:'Melbourne Royal Show',               cat:'City Agriculture',  city:'Melbourne', date:'Oct 2025', rev:40280, units:1725, cx:2988, cxt:747, aov:54, major:true  },
+        { name:'Sydney Mind Body Spirit',            cat:'Lifestyle',         city:'Sydney',    date:'Oct 2025', rev:18104, units:520,  cx:1376, cxt:344, aov:53, major:false },
+        { name:'Brisbane Good Food and Wine',        cat:'Food & Bev',        city:'Brisbane',  date:'Oct 2025', rev:14120, units:565,  cx:1412, cxt:353, aov:52, major:false },
+        { name:'Melbourne MBSF',                     cat:'Lifestyle',         city:'Melbourne', date:'Nov 2025', rev:11431, units:520,  cx:1376, cxt:344, aov:53, major:false },
+        { name:'GF&W – Sydney Christmas Market',     cat:'Food & Bev',        city:'Sydney',    date:'Nov 2025', rev:7878,  units:349,  cx:640,  cxt:160, aov:50, major:false },
+        { name:'GF&W – Melbourne Christmas Market',  cat:'Food & Bev',        city:'Melbourne', date:'Dec 2025', rev:8140,  units:382,  cx:648,  cxt:162, aov:50, major:false },
+        // Jan–Jul 2026
+        { name:'Aus Home Show – Brisbane EEA',       cat:'Home & Lifestyle',  city:'Brisbane',  date:'Mar 2026', rev:10850, units:402,  cx:812,  cxt:203, aov:54, major:false },
+        { name:'Brisbane Mind Body Spirit Festival', cat:'Lifestyle',         city:'Brisbane',  date:'Mar 2026', rev:9240,  units:344,  cx:705,  cxt:176, aov:53, major:false },
+        { name:'Aus Home Show – Sydney EEA',         cat:'Home & Lifestyle',  city:'Sydney',    date:'Mar 2026', rev:7180,  units:266,  cx:524,  cxt:131, aov:55, major:false },
+        { name:'Sydney Mind Body and Spirit',        cat:'Lifestyle',         city:'Sydney',    date:'Mar 2026', rev:13960, units:517,  cx:998,  cxt:250, aov:56, major:false },
+        { name:'Sydney Royal Show',                  cat:'City Agriculture',  city:'Sydney',    date:'Apr 2026', rev:112400,units:4163, cx:8640, cxt:2160,aov:52, major:true  },
+        { name:'Aus Home Show – Melbourne EEA',      cat:'Home & Lifestyle',  city:'Melbourne', date:'Apr 2026', rev:9510,  units:352,  cx:742,  cxt:186, aov:51, major:false },
+        { name:'Meatstock Sydney',                   cat:'Food & Bev',        city:'Sydney',    date:'May 2026', rev:6780,  units:251,  cx:521,  cxt:130, aov:52, major:false },
+        { name:'The Big Design Market – Melbourne',  cat:'Design Market',     city:'Melbourne', date:'May 2026', rev:12960, units:480,  cx:565,  cxt:270, aov:48, major:false },
+        { name:'Melbourne Good Food and Wine',       cat:'Food & Bev',        city:'Melbourne', date:'May 2026', rev:16420, units:608,  cx:1212, cxt:303, aov:54, major:false },
+        { name:'Melbourne Mind Body Spirit Festival',cat:'Lifestyle',         city:'Melbourne', date:'Jun 2026', rev:16510, units:611,  cx:1175, cxt:294, aov:56, major:false },
+        { name:'Perth Home Show',                    cat:'Home & Lifestyle',  city:'Perth',     date:'Jun 2026', rev:14690, units:544,  cx:1016, cxt:254, aov:58, major:false },
+        { name:'Sydney Good Food & Wine',            cat:'Food & Bev',        city:'Sydney',    date:'Jun 2026', rev:19340, units:716,  cx:1465, cxt:366, aov:53, major:false },
       ],
-      impressions: 64000,
-      emails: 1240,
+      nzl: [
+        { name:'The Auckland Food Show',   cat:'Food & Bev',    city:'Auckland',    date:'Apr 2026', rev:19800, units:733, cx:1369, cxt:342, aov:58, major:false },
+        { name:'The Wellington Food Show', cat:'Food & Bev',    city:'Wellington',  date:'May 2026', rev:16650, units:617, cx:1224, cxt:306, aov:54, major:false },
+        { name:'Auckland Home Show',       cat:'Home & Lifestyle',city:'Auckland',  date:'Jun 2026', rev:15300, units:567, cx:1162, cxt:290, aov:53, major:false },
+      ]
     },
     'Best of the Bone': {
-      shows: [
-        { name:'Royal Easter Show',  cat:'Food & Bev', city:'Sydney',    date:'Apr 2025', rev:12400, units:198, cx:1480, flow:.13, major:true,  report:null },
-        { name:'Brisbane Ekka',      cat:'Food & Bev', city:'Brisbane',  date:'Aug 2025', rev:9800,  units:162, cx:1100, flow:.15, major:true,  report:null },
-        { name:'Melbourne Night Mkt',cat:'Food & Bev', city:'Melbourne', date:'Feb 2025', rev:4600,  units:88,  cx:540,  flow:.16, major:false, report:null },
+      aus: [
+        { name:'Royal Easter Show',   cat:'Food & Bev', city:'Sydney',    date:'Apr 2025', rev:12400, units:198, cx:1480, cxt:185, aov:63, major:true  },
+        { name:'Brisbane Ekka',       cat:'Food & Bev', city:'Brisbane',  date:'Aug 2025', rev:9800,  units:162, cx:1100, cxt:137, aov:60, major:true  },
+        { name:'Melbourne Night Mkt', cat:'Food & Bev', city:'Melbourne', date:'Feb 2025', rev:4600,  units:88,  cx:540,  cxt:67,  aov:52, major:false },
       ],
-      impressions: 38000,
-      emails: 740,
+      nzl: []
     }
   };
 
-  // ── PIN UI ────────────────────────────────────────────────
+  // ── PIN UI ───────────────────────────────────────────────
   function updateDots(){
     for(var i=0;i<maxLen;i++){
       var d=document.getElementById('d'+i);
@@ -343,8 +368,7 @@ export default function DashboardPage() {
     var brand=PINS[pin];
     if(brand){
       document.getElementById('pin-gate').style.display='none';
-      var app=document.getElementById('app');
-      app.classList.add('on');
+      document.getElementById('app').classList.add('on');
       loadDashboard(brand);
     } else {
       var err=document.getElementById('pin-err');
@@ -379,32 +403,67 @@ export default function DashboardPage() {
 
   // ── DASHBOARD ────────────────────────────────────────────
   var barInst=null, donutInst=null;
+  var currentBrand=null, currentRegion='aus';
 
   function fmt(n){ return n>=1000?'$'+(n/1000).toFixed(1)+'k':'$'+n; }
-  function fmtN(n){ return n>=1000?(n/1000).toFixed(1)+'k':String(n); }
-  function pct(v){ return Math.round(v*100)+'%'; }
+  function fmtFull(n){ return '$'+Math.round(n).toLocaleString(); }
+  function fmtN(n){ return n>=1000?(n/1000).toFixed(1)+'k':String(Math.round(n)); }
 
   function loadDashboard(brand){
-    var sub=document.getElementById('t-sub');
-    if(sub) sub.textContent=brand+' · Completed Shows';
+    currentBrand=brand;
+    currentRegion='aus';
     var d=DATA[brand];
-    if(!d){ showContent(); return; }
+    var isDemo=(brand==='Best of the Bone');
 
-    // populate event selector
+    // Demo flag
+    var flag=document.getElementById('demo-flag');
+    if(flag) flag.style.display=isDemo?'inline-block':'none';
+
+    // Subtitle
+    setText('t-sub', brand+' · Rolling 12 months · Completed Shows');
+
+    // Wire up region tabs
+    document.querySelectorAll('.regtabs .rtab').forEach(function(btn){
+      btn.classList.toggle('on', btn.textContent.trim()==='AUS');
+      btn.addEventListener('click',function(){
+        currentRegion=btn.textContent.trim().toLowerCase();
+        document.querySelectorAll('.regtabs .rtab').forEach(function(b){ b.classList.remove('on'); });
+        btn.classList.add('on');
+        renderRegion(DATA[currentBrand], currentRegion);
+      });
+    });
+
+    // Wire event selector
     var sel=document.getElementById('evt');
     if(sel){
-      sel.innerHTML='<option value="all">All shows</option>';
-      d.shows.forEach(function(s,i){
-        var o=document.createElement('option');
-        o.value=String(i);
-        o.textContent=s.name;
-        sel.appendChild(o);
+      sel.addEventListener('change',function(){
+        var shows=d[currentRegion]||[];
+        if(sel.value==='all'){ renderShows(shows); return; }
+        var idx=parseInt(sel.value);
+        renderShows([shows[idx]]);
       });
-      sel.addEventListener('change',function(){ renderShows(d, sel.value==='all'?d.shows:[d.shows[parseInt(sel.value)]]); });
     }
 
-    renderShows(d, d.shows);
+    renderRegion(d, 'aus');
     showContent();
+  }
+
+  function renderRegion(d, region){
+    var shows=(d[region]||[]).slice();
+    buildEventFilter(shows);
+    renderShows(shows);
+  }
+
+  function buildEventFilter(shows){
+    var sel=document.getElementById('evt');
+    if(!sel) return;
+    sel.innerHTML='<option value="all">All shows</option>';
+    shows.forEach(function(s,i){
+      var o=document.createElement('option');
+      o.value=String(i);
+      o.textContent=s.name;
+      sel.appendChild(o);
+    });
   }
 
   function showContent(){
@@ -413,20 +472,21 @@ export default function DashboardPage() {
     c.style.display='flex';
   }
 
-  function renderShows(d, shows){
+  function renderShows(shows){
     var rev=shows.reduce(function(a,s){ return a+s.rev; },0);
     var units=shows.reduce(function(a,s){ return a+s.units; },0);
     var cx=shows.reduce(function(a,s){ return a+s.cx; },0);
+    var contacts=shows.reduce(function(a,s){ return a+s.cxt; },0);
     var aov=units>0?Math.round(rev/units):0;
 
-    setText('k-rev', fmt(rev));
+    setText('k-rev', fmtFull(rev));
     setText('k-shows', shows.length+' completed show'+(shows.length!==1?'s':''));
     setText('k-units', fmtN(units));
     setText('k-aov', '$'+aov+' avg order value');
     setText('k-avg', fmt(shows.length?Math.round(rev/shows.length):0));
     setText('k-cx', fmtN(cx));
-    setText('k-imp', fmtN(d.impressions));
-    setText('k-email', fmtN(d.emails));
+    setText('k-imp', fmtN(contacts));
+    setText('k-email', fmtN(Math.round(contacts*0.8)));
     setText('k-retail', '$'+aov);
     setText('t-count', shows.length+' show'+(shows.length!==1?'s':''));
 
@@ -448,7 +508,7 @@ export default function DashboardPage() {
     barInst=new Chart(ctx,{
       type:'bar',
       data:{
-        labels:shows.map(function(s){ return s.name.length>18?s.name.slice(0,18)+'…':s.name; }),
+        labels:shows.map(function(s){ return s.name.length>20?s.name.slice(0,20)+'…':s.name; }),
         datasets:[{ data:shows.map(function(s){ return s.rev; }), backgroundColor:'rgba(197,255,83,0.7)', borderColor:'#C5FF53', borderWidth:1, borderRadius:5 }]
       },
       options:{
@@ -456,7 +516,7 @@ export default function DashboardPage() {
         plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:function(c){ return ' $'+c.raw.toLocaleString(); } } } },
         scales:{
           x:{ ticks:{ color:'#6B6456', font:{ size:10 } }, grid:{ display:false } },
-          y:{ ticks:{ color:'#6B6456', font:{ size:10 }, callback:function(v){ return '$'+(v>=1000?v/1000+'k':v); } }, grid:{ color:'rgba(160,120,64,.1)' } }
+          y:{ ticks:{ color:'#6B6456', font:{ size:10 }, callback:function(v){ return '$'+(v>=1000?(v/1000).toFixed(0)+'k':v); } }, grid:{ color:'rgba(160,120,64,.1)' } }
         }
       }
     });
@@ -469,7 +529,7 @@ export default function DashboardPage() {
     var cats={};
     shows.forEach(function(s){ cats[s.cat]=(cats[s.cat]||0)+s.rev; });
     var labels=Object.keys(cats), vals=labels.map(function(k){ return cats[k]; });
-    var colours=['#C5FF53','#A07840','#6fcf97','#7B9EBB','#E05A5A'];
+    var colours=['#C5FF53','#A07840','#6fcf97','#7B9EBB','#E05A5A','#F2994A'];
     donutInst=new Chart(ctx,{
       type:'doughnut',
       data:{ labels:labels, datasets:[{ data:vals, backgroundColor:colours.slice(0,labels.length), borderWidth:0 }] },
@@ -488,45 +548,36 @@ export default function DashboardPage() {
     if(!tbody) return;
     tbody.innerHTML='';
     shows.forEach(function(s){
+      var flowVal=s.cxt&&s.cx ? Math.round(s.cxt/s.cx*100)+'%' : '—';
       var tr=document.createElement('tr');
       tr.innerHTML='<td>'+s.name+'</td>'
         +'<td><span class="cat-pill">'+s.cat+'</span></td>'
         +'<td>'+s.city+'</td>'
         +'<td>'+s.date+'</td>'
-        +'<td class="accent" style="color:var(--lime)">$'+s.rev.toLocaleString()+'</td>'
-        +'<td>'+s.units+'</td>'
+        +'<td style="color:var(--lime)">$'+s.rev.toLocaleString()+'</td>'
+        +'<td>'+s.units.toLocaleString()+'</td>'
         +'<td>'+fmtN(s.cx)+'</td>'
-        +'<td>'+pct(s.flow)+'</td>';
+        +'<td>'+flowVal+'</td>';
       tbody.appendChild(tr);
     });
   }
 
   function renderRoyal(shows){
-    var major=shows.filter(function(s){ return s.major; });
+    var major=shows.filter(function(s){ return s.major; }).slice().sort(function(a,b){ return b.rev-a.rev; });
     var sec=document.getElementById('royal-sec');
     if(!sec) return;
     if(!major.length){ sec.style.display='none'; return; }
     sec.style.display='flex';
     var grid=document.getElementById('royal-grid');
     if(!grid) return;
-    grid.innerHTML='';
-    major.forEach(function(s){
-      var div=document.createElement('div');
-      div.className='rshow';
-      div.innerHTML='<div class="rshow-name">'+s.name+'</div>'
-        +'<div class="rshow-meta">'+s.city+' · '+s.date+'</div>'
+    grid.innerHTML=major.map(function(s){
+      return '<div class="rshow">'
+        +'<div><div class="rshow-name">'+s.name+'</div><div class="rshow-meta">'+s.city+' &middot; '+s.date+'</div></div>'
         +'<div class="rshow-rev">$'+s.rev.toLocaleString()+'</div>'
-        +'<div class="rshow-stats"><span>Units: <b>'+s.units+'</b></span><span>CX: <b>'+fmtN(s.cx)+'</b></span><span>Flow: <b>'+pct(s.flow)+'</b></span></div>';
-      grid.appendChild(div);
-    });
+        +'<div class="rshow-stats"><span><b>'+s.units.toLocaleString()+'</b> units</span><span><b>$'+s.aov+'</b> AOV</span><span><b>'+fmtN(s.cx)+'</b> CX</span><span><b>'+fmtN(s.cxt)+'</b> contacts</span></div>'
+        +'</div>';
+    }).join('');
   }
-
-  // Simulate load
-  setTimeout(function(){
-    if(document.getElementById('pin-gate').style.display==='none'){
-      showContent();
-    }
-  }, 400);
 
 })();
       `}} />
