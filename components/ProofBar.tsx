@@ -5,7 +5,6 @@ const logos = [
   { src: '/petiteeats_partner_logo.png', alt: 'Petite Eats', white: false },
   { src: '/crunchtime_partner_logo.png', alt: 'Crunch Time', white: false },
   { src: '/ironclad_partner_logo.png', alt: 'Ironclad', white: true },
-  { src: '/nibblish_partner_logo.png', alt: 'Nibblish', white: false },
   { src: '/bestofthebone_partner_logo.png', alt: 'Best of the Bone', white: false },
   { src: '/edenorchard_partner_logo.png', alt: 'Eden Orchard', white: false },
   { src: '/ficandfogg_partner_logo.png', alt: 'Fic and Fogg', white: true },
