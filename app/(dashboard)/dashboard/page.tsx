@@ -296,7 +296,7 @@ export default function DashboardPage() {
       <script dangerouslySetInnerHTML={{ __html: `
 (function(){
   // ── CONFIG ────────────────────────────────────────────────
-  var PINS = { '2580': 'Artisan Co', '1234': 'Demo Brand' };
+  var PINS = { '2580': 'Artisan Co', '1234': 'Demo Brand', '2468': 'Best of the Bone' };
   var pin = '', maxLen = 4;
 
   // sample data keyed by brand
@@ -311,6 +311,15 @@ export default function DashboardPage() {
       ],
       impressions: 64000,
       emails: 1240,
+    },
+    'Best of the Bone': {
+      shows: [
+        { name:'Royal Easter Show',  cat:'Food & Bev', city:'Sydney',    date:'Apr 2025', rev:12400, units:198, cx:1480, flow:.13, major:true,  report:null },
+        { name:'Brisbane Ekka',      cat:'Food & Bev', city:'Brisbane',  date:'Aug 2025', rev:9800,  units:162, cx:1100, flow:.15, major:true,  report:null },
+        { name:'Melbourne Night Mkt',cat:'Food & Bev', city:'Melbourne', date:'Feb 2025', rev:4600,  units:88,  cx:540,  flow:.16, major:false, report:null },
+      ],
+      impressions: 38000,
+      emails: 740,
     }
   };
 
