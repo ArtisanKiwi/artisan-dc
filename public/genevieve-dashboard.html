@@ -43,7 +43,7 @@ header{background:var(--accent);padding:22px 28px;display:flex;align-items:cente
 .total-n{font-family:var(--font-h);font-size:40px;font-weight:700;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
 .total-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:2px}
 .live-badge{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.06em}
-.live-dot{width:7px;height:7px;border-radius:50%;background:#EAB308;animation:pulse 2s ease-in-out infinite}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .refresh-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:rgba(255,255,255,.7);padding:6px 14px;font-size:11px;letter-spacing:.06em;cursor:pointer;font-family:var(--font-b);transition:background .12s}
 .refresh-btn:hover{background:rgba(255,255,255,.18)}
@@ -142,11 +142,11 @@ main{max-width:1040px;margin:0 auto;padding:24px 18px 56px;display:flex;flex-dir
   </div>
   <div class="hdr-right">
     <div class="live-badge"><span class="live-dot"></span> Live · auto-refreshes every 60s</div>
-    <a class="refresh-btn" href="https://docs.google.com/spreadsheets/d/1UTz_1XYDMCLOSumFy5kdx6mAh0uXz3IlkF5kdOiBJ58/edit?usp=sharing" target="_blank" rel="noopener" style="text-decoration:none">↗ View all submissions</a>
     <button class="refresh-btn" id="refreshBtn" onclick="init()">↻ Refresh now</button>
     <div class="total-pill">
       <div class="total-n" id="totalN">—</div>
       <div class="total-lbl">Total Submissions</div>
+      <a href="https://docs.google.com/spreadsheets/d/1UTz_1XYDMCLOSumFy5kdx6mAh0uXz3IlkF5kdOiBJ58/edit?usp=sharing" target="_blank" rel="noopener" style="display:block;margin-top:6px;font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.5);text-decoration:none;transition:color .12s" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">↗ View all submissions</a>
     </div>
   </div>
 </header>
@@ -188,6 +188,10 @@ main{max-width:1040px;margin:0 auto;padding:24px 18px 56px;display:flex;flex-dir
 
   <p class="updated" id="updatedAt"></p>
 </main>
+
+<footer style="padding:32px 18px 40px;display:flex;flex-direction:column;align-items:center;gap:8px;border-top:1px solid var(--border)">
+  <img src="/logo.png" alt="Artisan Direct" style="height:28px;width:auto;opacity:0.35">
+</footer>
 
 <script>
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSPbG_ubB-E4HbJhtNCdGY72EQjXRWzH4RD_7mWP3IBH4UJa9uR3NicveFSQTGgESUzW6ZSL0jPog3U/pub?output=csv';
