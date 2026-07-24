@@ -341,7 +341,7 @@ function renderCharts(chartDefs, total) {
       row.innerHTML = `
         <span class="bl" title="${label}">${label}</span>
         <div class="bt"><div class="bf" data-w="${(n/maxN*100).toFixed(1)}"></div></div>
-        <span class="bn" data-n="${n}" data-pct="${pct}%" onmouseenter="this.textContent=this.dataset.pct" onmouseleave="this.textContent=this.dataset.n" style="cursor:default;min-width:36px">${n}</span>`;
+        <span class="bn">${n}</span>`;
       bv.appendChild(row);
     });
     const pv = card.querySelector('.pie-v');
