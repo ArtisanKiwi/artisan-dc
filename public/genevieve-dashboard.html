@@ -4,29 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Genevieve's — Survey Results</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #F5F3EE;
-  --surface: #FFFFFF;
-  --border: #E0DBD2;
-  --text: #1A1916;
-  --muted: #7A7364;
-  --accent: #1B4332;
-  --mid: #52B788;
-  --light: rgba(82,183,136,0.13);
-  --gold: #C9983A;
+  --bg: #071018;
+  --surface: #0D1B2A;
+  --border: #1A2E42;
+  --text: #F7F3E9;
+  --muted: #7A90A4;
+  --accent: #0D1B2A;
+  --mid: #EAB308;
+  --light: rgba(234,179,8,0.10);
+  --gold: #EAB308;
   --font-h: Georgia,'Times New Roman',serif;
-  --font-b: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --font-b: 'DM Sans',system-ui,sans-serif;
   --r: 10px;
-  --tab-bg: #1B4332;
-  --tab-fg: #fff;
+  --tab-bg: #EAB308;
+  --tab-fg: #0D1B2A;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:#0D1610;--surface:#131E17;--border:#1D2E22;
-    --text:#E6E2D8;--muted:#8A9486;--accent:#74C69D;
-    --mid:#52B788;--light:rgba(82,183,136,.10);--gold:#D4A84B;
-    --tab-bg:#52B788;--tab-fg:#0D1610;
+    --bg:#071018;--surface:#0D1B2A;--border:#1A2E42;
+    --text:#F7F3E9;--muted:#7A90A4;--accent:#0D1B2A;
+    --mid:#EAB308;--light:rgba(234,179,8,.10);--gold:#EAB308;
+    --tab-bg:#EAB308;--tab-fg:#0D1B2A;
   }
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -41,7 +43,7 @@ header{background:var(--accent);padding:22px 28px;display:flex;align-items:cente
 .total-n{font-family:var(--font-h);font-size:40px;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
 .total-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:2px}
 .live-badge{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.06em}
-.live-dot{width:7px;height:7px;border-radius:50%;background:#52B788;animation:pulse 2s ease-in-out infinite}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#EAB308;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .refresh-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:rgba(255,255,255,.7);padding:6px 14px;font-size:11px;letter-spacing:.06em;cursor:pointer;font-family:var(--font-b);transition:background .12s}
 .refresh-btn:hover{background:rgba(255,255,255,.18)}
@@ -54,7 +56,7 @@ header{background:var(--accent);padding:22px 28px;display:flex;align-items:cente
 #loading-screen p,#error-screen p{font-size:13px;color:var(--muted)}
 #error-screen{display:none}
 .err-title{font-family:var(--font-h);font-size:18px;color:var(--text);font-style:italic}
-#error-screen button{margin-top:4px;padding:8px 20px;background:var(--mid);border:none;border-radius:6px;color:#fff;font-size:13px;cursor:pointer;font-family:var(--font-b)}
+#error-screen button{margin-top:4px;padding:8px 20px;background:var(--mid);border:none;border-radius:6px;color:#0D1B2A;font-size:13px;cursor:pointer;font-family:var(--font-b)}
 
 /* LAYOUT */
 main{max-width:1040px;margin:0 auto;padding:24px 18px 56px;display:flex;flex-direction:column;gap:12px}
@@ -91,7 +93,7 @@ main{max-width:1040px;margin:0 auto;padding:24px 18px 56px;display:flex;flex-dir
 .word{font-family:var(--font-h);font-style:italic;line-height:1.3;cursor:default;transition:opacity .15s}
 .word:hover{opacity:.6!important}
 .see-all{display:block;margin:8px auto 0;padding:5px 14px;font-size:11px;letter-spacing:.06em;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--font-b);transition:border-color .12s,color .12s}
-.see-all:hover{border-color:var(--accent);color:var(--accent)}
+.see-all:hover{border-color:var(--mid);color:var(--mid)}
 .resp-list{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .resp-list.hidden{display:none}
 .resp-item{padding:4px 10px;background:var(--light);border-radius:20px;font-size:12px;font-style:italic;font-family:var(--font-h);color:var(--text)}
@@ -125,7 +127,7 @@ main{max-width:1040px;margin:0 auto;padding:24px 18px 56px;display:flex;flex-dir
 
 <header>
   <div>
-    <div class="brand">Genevieve's</div>
+    <img src="https://genevieves.co.nz/cdn/shop/files/genevieves_white_high_res_1100x.png?v=1633749464" alt="Genevieve's" style="height:44px;width:auto;display:block">
     <div class="brand-sub">Customer Survey · Tasting Event 2026</div>
   </div>
   <div class="hdr-right">
@@ -284,13 +286,13 @@ function parseWords(responses) {
 }
 
 // ── COLOURS ─────────────────────────────────────────────────────
-const PALETTE = ['#1B4332','#2D6A4F','#40916C','#52B788','#74C69D','#B7E4C7'];
-const WC_COLORS = ['#1B4332','#2D6A4F','#C9983A','#40916C','#1B4332','#52B788','#C9983A','#2D6A4F'];
+const PALETTE = ['#EAB308','#D97706','#B45309','#FBBF24','#78350F','#FDE68A'];
+const WC_COLORS = ['#EAB308','#F7F3E9','#D97706','#FBBF24','#EAB308','#F7F3E9','#D97706','#FBBF24'];
 
 function isDark() {
   return window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches;
 }
-function cls() { return isDark() ? [...PALETTE].reverse() : PALETTE; }
+function cls() { return PALETTE; }
 
 // ── DONUT SVG ────────────────────────────────────────────────────
 function buildDonut(data) {
