@@ -132,6 +132,7 @@ main{max-width:1040px;margin:0 auto;padding:24px 18px 56px;display:flex;flex-dir
   </div>
   <div class="hdr-right">
     <div class="live-badge"><span class="live-dot"></span> Live · auto-refreshes every 60s</div>
+    <a class="refresh-btn" href="https://docs.google.com/spreadsheets/d/1UTz_1XYDMCLOSumFy5kdx6mAh0uXz3IlkF5kdOiBJ58/edit?usp=sharing" target="_blank" rel="noopener" style="text-decoration:none">↗ View all submissions</a>
     <button class="refresh-btn" id="refreshBtn" onclick="init()">↻ Refresh now</button>
     <div class="total-pill">
       <div class="total-n" id="totalN">—</div>
@@ -332,13 +333,15 @@ function renderCharts(chartDefs, total) {
       <div class="pie-v" style="display:none"></div>
     `;
     const bv = card.querySelector('.bars-v');
+    const chartTotal = data.reduce((s,d) => s+d.n, 0);
     data.forEach(({label,n}) => {
+      const pct = chartTotal > 0 ? Math.round(n/chartTotal*100) : 0;
       const row = document.createElement('div');
       row.className = 'bar-row';
       row.innerHTML = `
         <span class="bl" title="${label}">${label}</span>
         <div class="bt"><div class="bf" data-w="${(n/maxN*100).toFixed(1)}"></div></div>
-        <span class="bn">${n}</span>`;
+        <span class="bn" title="${pct}% of responses" style="cursor:help">${n}</span>`;
       bv.appendChild(row);
     });
     const pv = card.querySelector('.pie-v');
@@ -395,13 +398,15 @@ function renderSupBars(data) {
   const maxN = data[0].n;
   const wrap = document.createElement('div');
   wrap.className = 'bars';
+  const supTotal = data.reduce((s,d) => s+d.n, 0);
   data.forEach(({label,n}) => {
+    const pct = supTotal > 0 ? Math.round(n/supTotal*100) : 0;
     const row = document.createElement('div');
     row.className = 'bar-row';
     row.innerHTML = `
       <span class="bl">${label}</span>
       <div class="bt"><div class="bf" data-w="${(n/maxN*100).toFixed(1)}"></div></div>
-      <span class="bn">${n}</span>`;
+      <span class="bn" title="${pct}% of responses" style="cursor:help">${n}</span>`;
     wrap.appendChild(row);
   });
   el.appendChild(wrap);
