@@ -105,9 +105,19 @@ main{max-width:1040px;margin:0 auto;padding:24px 18px 56px;display:flex;flex-dir
 .sup-note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5}
 .updated{font-size:10px;color:var(--muted);text-align:center;letter-spacing:.06em;margin-top:4px}
 
+/* FILTER BAR */
+#filter-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filt{padding:5px 14px;font-size:11px;letter-spacing:.05em;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--font-b);transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
+.filt.on{background:var(--mid);border-color:var(--mid);color:#0D1B2A;font-weight:600}
+#custom-range{display:none;align-items:center;gap:6px;flex-wrap:wrap}
+#custom-range.show{display:flex}
+#custom-range input[type=date]{padding:4px 8px;font-size:11px;font-family:var(--font-b);background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);outline:none}
+#custom-range input[type=date]:focus{border-color:var(--mid)}
+#custom-range span{font-size:11px;color:var(--muted)}
+
 @media(max-width:640px){
   .chart-grid,.bottom-grid{grid-template-columns:1fr}
-  header{padding:18px}
+  header,#filter-bar{padding:14px 18px}
   .bl{width:110px}
 }
 </style>
@@ -140,6 +150,17 @@ main{max-width:1040px;margin:0 auto;padding:24px 18px 56px;display:flex;flex-dir
     </div>
   </div>
 </header>
+
+<div id="filter-bar">
+  <button class="filt on" data-f="all">All time</button>
+  <button class="filt" data-f="auckland">Auckland Food Show (23–26 Jul)</button>
+  <button class="filt" data-f="custom">Custom</button>
+  <div id="custom-range">
+    <input type="date" id="date-from" aria-label="From">
+    <span>to</span>
+    <input type="date" id="date-to" aria-label="To">
+  </div>
+</div>
 
 <main id="mainContent" style="display:none">
   <p class="sec-label">Consumer Insights</p>
@@ -434,7 +455,98 @@ function renderWhyNot(responses) {
   el.appendChild(note);
 }
 
-// ── MAIN LOAD ───────────────────────────────────────────────────
+// ── DATE PARSING ────────────────────────────────────────────────
+function parseSubmittedAt(str) {
+  if (!str) return null;
+  // ISO or standard parse
+  let d = new Date(str);
+  if (!isNaN(d)) return d;
+  // Google Forms: M/D/YYYY H:MM:SS or D/M/YYYY H:MM:SS — try both
+  const m = str.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) {
+    // Assume M/D/YYYY (US Google Forms default)
+    const attempt = new Date(+m[3], +m[1]-1, +m[2]);
+    if (!isNaN(attempt)) return attempt;
+  }
+  return null;
+}
+
+// ── GLOBAL DATA STORE ────────────────────────────────────────────
+let allData = [];
+
+// ── RENDER FROM FILTERED DATA ────────────────────────────────────
+function renderAll(data) {
+  const total = data.length;
+  document.getElementById('totalN').textContent = total;
+
+  const awareness = countWith(data, 3, normAwareness);
+  const frequency = countWith(data, 5, normFrequency);
+  const shopWhere = countWith(data, 6, normShop);
+  const recommend = countWith(data, 8, normRecommend);
+  const supRaw    = countWith(data, 7, normSupermarket);
+  const supData   = supRaw.filter(d => d.label);
+  const wordResps = data.map(r => r[4]).filter(Boolean);
+  const whyNot    = data.map(r => r[9]).filter(Boolean);
+
+  renderCharts([
+    { q: "Had you heard of Genevieve's before today?", data: awareness },
+    { q: "How often do you buy chilled dressings or pâté?", data: frequency },
+    { q: "Where do you do your main food shop, and where would you expect to find Genevieve's?", data: shopWhere },
+    { q: "After tasting, how likely are you to recommend Genevieve's to a friend?", data: recommend },
+  ], total);
+
+  renderWordCloud(parseWords(wordResps), wordResps);
+  renderSupBars(supData);
+  renderWhyNot(whyNot);
+}
+
+// ── FILTER LOGIC ─────────────────────────────────────────────────
+function applyFilter() {
+  const active = document.querySelector('.filt.on').dataset.f;
+  let data = allData;
+
+  if (active === 'auckland') {
+    const from = new Date(2026, 6, 23, 0, 0, 0);
+    const to   = new Date(2026, 6, 26, 23, 59, 59);
+    data = allData.filter(r => {
+      const d = parseSubmittedAt(r[2]);
+      return d && d >= from && d <= to;
+    });
+  } else if (active === 'custom') {
+    const fromVal = document.getElementById('date-from').value;
+    const toVal   = document.getElementById('date-to').value;
+    if (fromVal || toVal) {
+      const from = fromVal ? new Date(fromVal + 'T00:00:00') : new Date(0);
+      const to   = toVal   ? new Date(toVal   + 'T23:59:59') : new Date(9999, 0);
+      data = allData.filter(r => {
+        const d = parseSubmittedAt(r[2]);
+        return d && d >= from && d <= to;
+      });
+    }
+  }
+
+  renderAll(data);
+}
+
+// ── FILTER UI WIRING ─────────────────────────────────────────────
+document.querySelectorAll('.filt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filt').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    const cr = document.getElementById('custom-range');
+    if (btn.dataset.f === 'custom') {
+      cr.classList.add('show');
+    } else {
+      cr.classList.remove('show');
+      applyFilter();
+    }
+  });
+});
+
+document.getElementById('date-from').addEventListener('change', applyFilter);
+document.getElementById('date-to').addEventListener('change', applyFilter);
+
+// ── MAIN LOAD ────────────────────────────────────────────────────
 async function init() {
   const btn = document.getElementById('refreshBtn');
   btn.disabled = true;
@@ -447,35 +559,9 @@ async function init() {
     const rows = parseCSV(text);
     if (rows.length < 2) throw new Error('No data');
 
-    // Skip header (row 0), process data rows
-    const data = rows.slice(1).filter(r => r.length >= 4 && r[0]);
-    const total = data.length;
+    allData = rows.slice(1).filter(r => r.length >= 4 && r[0]);
+    applyFilter();
 
-    document.getElementById('totalN').textContent = total;
-
-    // Process each question
-    const awareness  = countWith(data, 3, normAwareness);
-    const frequency  = countWith(data, 5, normFrequency);
-    const shopWhere  = countWith(data, 6, normShop);
-    const recommend  = countWith(data, 8, normRecommend);
-    const supRaw     = countWith(data, 7, normSupermarket);
-    const supData    = supRaw.filter(d => d.label);
-    const wordResps  = data.map(r => r[4]).filter(Boolean);
-    const whyNot     = data.map(r => r[9]).filter(Boolean);
-
-    // Render charts
-    renderCharts([
-      { q: "Had you heard of Genevieve's before today?", data: awareness },
-      { q: "How often do you buy chilled dressings or pâté?", data: frequency },
-      { q: "Where do you do your main food shop, and where would you expect to find Genevieve's?", data: shopWhere },
-      { q: "After tasting, how likely are you to recommend Genevieve's to a friend?", data: recommend },
-    ], total);
-
-    renderWordCloud(parseWords(wordResps), wordResps);
-    renderSupBars(supData);
-    renderWhyNot(whyNot);
-
-    // Show main, hide loading
     document.getElementById('loading-screen').style.display = 'none';
     document.getElementById('error-screen').style.display = 'none';
     document.getElementById('mainContent').style.display = 'flex';
