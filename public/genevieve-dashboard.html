@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genevieve's — Survey Results</title>
+<style>
+:root {
+  --bg: #F5F3EE;
+  --surface: #FFFFFF;
+  --border: #E0DBD2;
+  --text: #1A1916;
+  --muted: #7A7364;
+  --accent: #1B4332;
+  --mid: #52B788;
+  --light: rgba(82,183,136,0.13);
+  --gold: #C9983A;
+  --font-h: Georgia,'Times New Roman',serif;
+  --font-b: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --r: 10px;
+  --tab-bg: #1B4332;
+  --tab-fg: #fff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#0D1610;--surface:#131E17;--border:#1D2E22;
+    --text:#E6E2D8;--muted:#8A9486;--accent:#74C69D;
+    --mid:#52B788;--light:rgba(82,183,136,.10);--gold:#D4A84B;
+    --tab-bg:#52B788;--tab-fg:#0D1610;
+  }
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:14px;line-height:1.5}
+
+/* HEADER */
+header{background:var(--accent);padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--font-h);font-size:26px;font-style:italic;color:#fff;line-height:1}
+.brand-sub{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.48);margin-top:5px}
+.hdr-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.total-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:10px 22px;text-align:center;flex-shrink:0}
+.total-n{font-family:var(--font-h);font-size:40px;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
+.total-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:2px}
+.live-badge{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.06em}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#52B788;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.refresh-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:rgba(255,255,255,.7);padding:6px 14px;font-size:11px;letter-spacing:.06em;cursor:pointer;font-family:var(--font-b);transition:background .12s}
+.refresh-btn:hover{background:rgba(255,255,255,.18)}
+.refresh-btn:disabled{opacity:.4;cursor:default}
+
+/* STATE SCREENS */
+#loading-screen,#error-screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--bg);z-index:10}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--mid);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loading-screen p,#error-screen p{font-size:13px;color:var(--muted)}
+#error-screen{display:none}
+.err-title{font-family:var(--font-h);font-size:18px;color:var(--text);font-style:italic}
+#error-screen button{margin-top:4px;padding:8px 20px;background:var(--mid);border:none;border-radius:6px;color:#fff;font-size:13px;cursor:pointer;font-family:var(--font-b)}
+
+/* LAYOUT */
+main{max-width:1040px;margin:0 auto;padding:24px 18px 56px;display:flex;flex-direction:column;gap:12px}
+.sec-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-bottom:8px;border-bottom:1px solid var(--border)}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px}
+.card-q{font-family:var(--font-h);font-size:14px;line-height:1.4;text-wrap:balance;margin-bottom:12px;min-height:38px}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:14px}
+.tb{padding:3px 11px;font-size:10px;letter-spacing:.06em;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--font-b);transition:background .12s,color .12s,border-color .12s}
+.tb.on{background:var(--tab-bg);border-color:var(--tab-bg);color:var(--tab-fg)}
+
+/* BARS */
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar-row{display:flex;align-items:center;gap:8px}
+.bl{font-size:12px;flex-shrink:0;width:148px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.bt{flex:1;background:var(--light);border-radius:3px;height:18px;overflow:hidden}
+.bf{height:100%;background:var(--mid);border-radius:3px;width:0%;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.bn{font-size:11px;color:var(--muted);min-width:24px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* PIE */
+.pie-wrap{display:flex;align-items:center;gap:16px}
+.leg{display:flex;flex-direction:column;gap:8px;flex:1}
+.leg-item{display:flex;align-items:center;gap:8px;font-size:12px}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.leg-lbl{flex:1;color:var(--text)}
+.leg-pct{color:var(--muted);font-variant-numeric:tabular-nums;font-size:11px}
+
+/* WORD CLOUD */
+.wc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.wc-q{font-family:var(--font-h);font-size:14px;line-height:1.4;margin-bottom:16px}
+.wc-cloud{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;justify-content:center;padding:8px 0 12px;min-height:80px}
+.word{font-family:var(--font-h);font-style:italic;line-height:1.3;cursor:default;transition:opacity .15s}
+.word:hover{opacity:.6!important}
+.see-all{display:block;margin:8px auto 0;padding:5px 14px;font-size:11px;letter-spacing:.06em;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--font-b);transition:border-color .12s,color .12s}
+.see-all:hover{border-color:var(--accent);color:var(--accent)}
+.resp-list{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.resp-list.hidden{display:none}
+.resp-item{padding:4px 10px;background:var(--light);border-radius:20px;font-size:12px;font-style:italic;font-family:var(--font-h);color:var(--text)}
+
+/* BOTTOM */
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.quote-block{background:var(--light);border-left:3px solid var(--mid);border-radius:0 6px 6px 0;padding:12px 16px;font-style:italic;font-family:var(--font-h);font-size:16px;color:var(--text);margin-top:10px;line-height:1.5}
+.resp-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}
+.sup-note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5}
+.updated{font-size:10px;color:var(--muted);text-align:center;letter-spacing:.06em;margin-top:4px}
+
+@media(max-width:640px){
+  .chart-grid,.bottom-grid{grid-template-columns:1fr}
+  header{padding:18px}
+  .bl{width:110px}
+}
+</style>
+</head>
+<body>
+
+<div id="loading-screen">
+  <div class="spinner"></div>
+  <p>Loading survey data…</p>
+</div>
+
+<div id="error-screen">
+  <p class="err-title">Couldn't load data</p>
+  <p>Check your internet connection or that the sheet is still published.</p>
+  <button onclick="init()">Try again</button>
+</div>
+
+<header>
+  <div>
+    <div class="brand">Genevieve's</div>
+    <div class="brand-sub">Customer Survey · Tasting Event 2026</div>
+  </div>
+  <div class="hdr-right">
+    <div class="live-badge"><span class="live-dot"></span> Live · auto-refreshes every 60s</div>
+    <button class="refresh-btn" id="refreshBtn" onclick="init()">↻ Refresh now</button>
+    <div class="total-pill">
+      <div class="total-n" id="totalN">—</div>
+      <div class="total-lbl">Total Submissions</div>
+    </div>
+  </div>
+</header>
+
+<main id="mainContent" style="display:none">
+  <p class="sec-label">Consumer Insights</p>
+  <div class="chart-grid" id="chartGrid"></div>
+
+  <p class="sec-label">Pack Impressions</p>
+  <div class="wc-card">
+    <div class="wc-q">Looking at the pack, what three words come to mind?</div>
+    <div class="wc-cloud" id="wordCloud"></div>
+    <button class="see-all" id="seeAll">Show all responses ↓</button>
+    <ul class="resp-list hidden" id="respList"></ul>
+  </div>
+
+  <p class="sec-label">Open Responses</p>
+  <div class="bottom-grid">
+    <div class="card">
+      <div class="card-q">Which Supermarket?</div>
+      <div id="supBars"></div>
+    </div>
+    <div class="card">
+      <div class="card-q">Why not? / What would change your mind?</div>
+      <div id="whyNotSection"></div>
+    </div>
+  </div>
+
+  <p class="updated" id="updatedAt"></p>
+</main>
+
+<script>
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSPbG_ubB-E4HbJhtNCdGY72EQjXRWzH4RD_7mWP3IBH4UJa9uR3NicveFSQTGgESUzW6ZSL0jPog3U/pub?output=csv';
+
+// ── CSV PARSER ──────────────────────────────────────────────────
+function parseCSV(text) {
+  const rows = [];
+  let row = [], field = '', inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"' && text[i+1] === '"') { field += '"'; i++; }
+      else if (c === '"') { inQ = false; }
+      else { field += c; }
+    } else {
+      if (c === '"') { inQ = true; }
+      else if (c === ',') { row.push(field.trim()); field = ''; }
+      else if (c === '\n') { row.push(field.trim()); if (row.some(Boolean)) rows.push(row); row = []; field = ''; }
+      else if (c !== '\r') { field += c; }
+    }
+  }
+  if (field || row.length) { row.push(field.trim()); if (row.some(Boolean)) rows.push(row); }
+  return rows;
+}
+
+// ── NORMALISE HELPERS ───────────────────────────────────────────
+function normAwareness(v) {
+  const l = v.toLowerCase().trim();
+  if (l.startsWith('never') && !l.includes('heard')) return 'Never heard of it';
+  if (l.includes('seen') || l.includes('around')) return 'Seen it around';
+  if (l.includes('tried') || l.includes('try')) return 'Tried it before';
+  if (l.includes('buy') || l.includes('regular')) return 'Buy it regularly';
+  if (l.startsWith('never')) return 'Never heard of it';
+  return v.trim();
+}
+function normFrequency(v) {
+  const l = v.toLowerCase().trim();
+  if (l.includes('special') || l.includes('occasion')) return 'Special occasions';
+  if (l.includes('month')) return 'Monthly';
+  if (l.includes('week')) return 'Weekly';
+  if (l.startsWith('never') || l === 'never') return 'Never';
+  return v.trim();
+}
+function normShop(v) {
+  const l = v.toLowerCase().trim();
+  if (l.includes('supermarket') && (l.includes('deli') || l.includes('farro'))) return 'Supermarket + Deli';
+  if (l.includes('supermarket') && l.includes('market')) return 'Supermarket + Market';
+  if (l.includes('supermarket')) return 'Supermarket';
+  if (l.includes('deli') || l.includes('farro')) return 'Deli or Farro';
+  if (l.includes('online')) return 'Online';
+  if (l.includes('market') || l.includes('farm')) return 'Farmers Market';
+  return v.trim();
+}
+function normSupermarket(v) {
+  const l = v.toLowerCase().trim();
+  if (!l) return null;
+  if (l.includes('new world') || l === 'new world') return 'New World';
+  if (l.includes('woolworth') || l.includes('woolies') || l.includes('woolworths')) return 'Woolworths';
+  if (l.includes('pak') || l.includes('pns')) return 'Pak n Save';
+  if (l.includes('countdown')) return 'Countdown';
+  if (l.includes('farro')) return 'Farro';
+  if (l.includes('four square') || l.includes('foursquare')) return 'Four Square';
+  if (l.length < 2) return null;
+  return v.trim();
+}
+function normRecommend(v) {
+  const l = v.toLowerCase().trim();
+  if (l.includes('definitely') || l.includes('yes')) return 'Definitely';
+  if (l.includes('probably') || l.includes('maybe')) return 'Probably';
+  if (l.includes('not') || l.includes('no')) return 'Not for me';
+  return v.trim();
+}
+
+function countWith(rows, colIdx, normFn, filterNull = false) {
+  const freq = {};
+  rows.forEach(row => {
+    const val = normFn ? normFn(row[colIdx] || '') : (row[colIdx] || '').trim();
+    if (!val || val === 'null') return;
+    if (filterNull && val === null) return;
+    freq[val] = (freq[val] || 0) + 1;
+  });
+  return Object.entries(freq).sort(([,a],[,b]) => b-a).map(([label,n]) => ({label,n}));
+}
+
+// ── WORD CLOUD PROCESSING ────────────────────────────────────────
+const STOP = new Set(['and','the','a','an','in','on','at','to','for','of','is','it','nz',
+  'so','how','not','me','was','or','are','be','as','with','look','looks','size','very',
+  'use','made','just','good','great','what','little','i','my','wide','every','day',
+  'trial','packaging','little','bit','nice','quite']);
+const NORM_W = {
+  'yum':'Yum','yum!':'Yum','yuuum':'Yum','yumm':'Yum','yummo':'Yum',
+  'yummy':'Yummy','home made':'Homemade','homemade':'Homemade',
+  'fresh':'Fresh','gourmet':'Gourmet','goumet':'Gourmet','premium':'Premium',
+  'tasty':'Tasty','tastesy':'Tasty','delicious':'Delicious','delish':'Delicious',
+  'everyday':'Everyday','every day':'Everyday','quality':'Quality',
+  'colourful':'Colourful','colorful':'Colourful','convenient':'Convenient',
+  'conveinent':'Convenient','treat':'Treat','treats':'Treat',
+  'french':'French','european':'European','creamy':'Creamy','smooth':'Smooth',
+  'flavourful':'Flavourful','flavorful':'Flavourful','flavour':'Flavourful',
+  'local':'Local','classy':'Classy','authentic':'Authentic','truffle':'Truffle',
+  'wholesome':'Wholesome','healthy':'Healthy','generous':'Generous',
+  'elegant':'Elegant','rich':'Rich','clean':'Clean','inviting':'Inviting',
+  'versatile':'Versatile','artisan':'Artisan','variety':'Variety',
+  'rainbow':'Rainbow','interesting':'Interesting','attractive':'Attractive',
+  'convenient':'Convenient','fabulous':'Fabulous','unusual':'Unusual',
+};
+function parseWords(responses) {
+  const freq = {};
+  responses.forEach(r => {
+    r.toLowerCase().split(/[\s,&.\/\-!?]+/).forEach(raw => {
+      const w = raw.replace(/[^a-z]/g,'').trim();
+      if (!w || w.length < 3 || STOP.has(w)) return;
+      const norm = NORM_W[w] || (w.charAt(0).toUpperCase() + w.slice(1));
+      freq[norm] = (freq[norm] || 0) + 1;
+    });
+  });
+  return Object.entries(freq).filter(([,c]) => c >= 2).sort(([,a],[,b]) => b-a).slice(0,40);
+}
+
+// ── COLOURS ─────────────────────────────────────────────────────
+const PALETTE = ['#1B4332','#2D6A4F','#40916C','#52B788','#74C69D','#B7E4C7'];
+const WC_COLORS = ['#1B4332','#2D6A4F','#C9983A','#40916C','#1B4332','#52B788','#C9983A','#2D6A4F'];
+
+function isDark() {
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches;
+}
+function cls() { return isDark() ? [...PALETTE].reverse() : PALETTE; }
+
+// ── DONUT SVG ────────────────────────────────────────────────────
+function buildDonut(data) {
+  const total = data.reduce((s,d) => s+d.n, 0);
+  const sz=120, cx=60, cy=60, oR=50, iR=30;
+  const c = cls();
+  let paths='', legend='', angle=-Math.PI/2;
+  data.forEach(({label,n},i) => {
+    const sweep=(n/total)*Math.PI*2, end=angle+sweep;
+    const lg=sweep>Math.PI?1:0, col=c[i%c.length];
+    const f=v=>v.toFixed(2);
+    const x1=f(cx+oR*Math.cos(angle)), y1=f(cy+oR*Math.sin(angle));
+    const x2=f(cx+oR*Math.cos(end)),   y2=f(cy+oR*Math.sin(end));
+    const x3=f(cx+iR*Math.cos(end)),   y3=f(cy+iR*Math.sin(end));
+    const x4=f(cx+iR*Math.cos(angle)), y4=f(cy+iR*Math.sin(angle));
+    paths+=`<path d="M${x1} ${y1}A${oR} ${oR} 0 ${lg} 1 ${x2} ${y2}L${x3} ${y3}A${iR} ${iR} 0 ${lg} 0 ${x4} ${y4}Z" fill="${col}"/>`;
+    legend+=`<div class="leg-item"><span class="leg-dot" style="background:${col}"></span><span class="leg-lbl">${label}</span><span class="leg-pct">${Math.round(n/total*100)}%</span></div>`;
+    angle=end;
+  });
+  return {svg:`<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}">${paths}</svg>`,legend};
+}
+
+// ── RENDER ──────────────────────────────────────────────────────
+function renderCharts(chartDefs, total) {
+  const grid = document.getElementById('chartGrid');
+  grid.innerHTML = '';
+
+  chartDefs.forEach(({q, data}) => {
+    if (!data.length) return;
+    const maxN = data[0].n;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-q">${q}</div>
+      <div class="tabs"><button class="tb on">Bar</button><button class="tb">Pie</button></div>
+      <div class="bars-v bars"></div>
+      <div class="pie-v" style="display:none"></div>
+    `;
+    const bv = card.querySelector('.bars-v');
+    data.forEach(({label,n}) => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.innerHTML = `
+        <span class="bl" title="${label}">${label}</span>
+        <div class="bt"><div class="bf" data-w="${(n/maxN*100).toFixed(1)}"></div></div>
+        <span class="bn">${n}</span>`;
+      bv.appendChild(row);
+    });
+    const pv = card.querySelector('.pie-v');
+    const [bb, pb] = card.querySelectorAll('.tb');
+    bb.addEventListener('click', () => {
+      bb.classList.add('on'); pb.classList.remove('on');
+      bv.style.display=''; pv.style.display='none';
+    });
+    pb.addEventListener('click', () => {
+      pb.classList.add('on'); bb.classList.remove('on');
+      bv.style.display='none'; pv.style.display='';
+      const {svg,legend} = buildDonut(data);
+      pv.innerHTML = `<div class="pie-wrap">${svg}<div class="leg">${legend}</div></div>`;
+    });
+    grid.appendChild(card);
+  });
+
+  // animate bars
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.bf[data-w]').forEach(el => { el.style.width = el.dataset.w + '%'; });
+  });
+}
+
+function renderWordCloud(wordFreq, rawResponses) {
+  const wc = document.getElementById('wordCloud');
+  wc.innerHTML = '';
+  if (!wordFreq.length) return;
+  const maxF = wordFreq[0][1], minF = wordFreq[wordFreq.length-1][1];
+  wordFreq.forEach(([word,count],i) => {
+    const t = maxF===minF ? 0.5 : (count-minF)/(maxF-minF);
+    const span = document.createElement('span');
+    span.className = 'word';
+    span.textContent = word;
+    span.style.fontSize = (12 + t*32).toFixed(0) + 'px';
+    span.style.color = WC_COLORS[i % WC_COLORS.length];
+    span.style.opacity = (0.55 + t*0.45).toFixed(2);
+    span.title = count + ' mention' + (count!==1?'s':'');
+    wc.appendChild(span);
+  });
+  const rl = document.getElementById('respList');
+  rl.innerHTML = '';
+  rawResponses.forEach(r => {
+    const li = document.createElement('li');
+    li.className = 'resp-item';
+    li.textContent = r;
+    rl.appendChild(li);
+  });
+}
+
+function renderSupBars(data) {
+  const el = document.getElementById('supBars');
+  el.innerHTML = '';
+  if (!data.length) return;
+  const maxN = data[0].n;
+  const wrap = document.createElement('div');
+  wrap.className = 'bars';
+  data.forEach(({label,n}) => {
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <span class="bl">${label}</span>
+      <div class="bt"><div class="bf" data-w="${(n/maxN*100).toFixed(1)}"></div></div>
+      <span class="bn">${n}</span>`;
+    wrap.appendChild(row);
+  });
+  el.appendChild(wrap);
+  requestAnimationFrame(() => {
+    el.querySelectorAll('.bf[data-w]').forEach(f => { f.style.width = f.dataset.w + '%'; });
+  });
+}
+
+function renderWhyNot(responses) {
+  const el = document.getElementById('whyNotSection');
+  el.innerHTML = '';
+  if (!responses.length) {
+    el.innerHTML = '<p class="resp-note">No responses yet — this question was left blank by all respondents so far.</p>';
+    return;
+  }
+  responses.forEach(r => {
+    const bq = document.createElement('blockquote');
+    bq.className = 'quote-block';
+    bq.textContent = `"${r}"`;
+    el.appendChild(bq);
+  });
+  const note = document.createElement('p');
+  note.className = 'resp-note';
+  note.textContent = `${responses.length} response${responses.length!==1?'s':''} — the majority left this blank.`;
+  el.appendChild(note);
+}
+
+// ── MAIN LOAD ───────────────────────────────────────────────────
+async function init() {
+  const btn = document.getElementById('refreshBtn');
+  btn.disabled = true;
+  btn.textContent = '↻ Loading…';
+
+  try {
+    const res = await fetch(CSV_URL, { cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    if (rows.length < 2) throw new Error('No data');
+
+    // Skip header (row 0), process data rows
+    const data = rows.slice(1).filter(r => r.length >= 4 && r[0]);
+    const total = data.length;
+
+    document.getElementById('totalN').textContent = total;
+
+    // Process each question
+    const awareness  = countWith(data, 3, normAwareness);
+    const frequency  = countWith(data, 5, normFrequency);
+    const shopWhere  = countWith(data, 6, normShop);
+    const recommend  = countWith(data, 8, normRecommend);
+    const supRaw     = countWith(data, 7, normSupermarket);
+    const supData    = supRaw.filter(d => d.label);
+    const wordResps  = data.map(r => r[4]).filter(Boolean);
+    const whyNot     = data.map(r => r[9]).filter(Boolean);
+
+    // Render charts
+    renderCharts([
+      { q: "Had you heard of Genevieve's before today?", data: awareness },
+      { q: "How often do you buy chilled dressings or pâté?", data: frequency },
+      { q: "Where do you do your main food shop, and where would you expect to find Genevieve's?", data: shopWhere },
+      { q: "After tasting, how likely are you to recommend Genevieve's to a friend?", data: recommend },
+    ], total);
+
+    renderWordCloud(parseWords(wordResps), wordResps);
+    renderSupBars(supData);
+    renderWhyNot(whyNot);
+
+    // Show main, hide loading
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('error-screen').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'flex';
+
+    const now = new Date();
+    document.getElementById('updatedAt').textContent =
+      'Last updated: ' + now.toLocaleDateString('en-NZ', {day:'numeric',month:'long',year:'numeric'})
+      + ' at ' + now.toLocaleTimeString('en-NZ', {hour:'2-digit',minute:'2-digit'});
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('error-screen').style.display = 'flex';
+    document.getElementById('mainContent').style.display = '';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '↻ Refresh now';
+  }
+}
+
+// See all responses toggle
+document.getElementById('seeAll').addEventListener('click', function() {
+  const hidden = document.getElementById('respList').classList.toggle('hidden');
+  this.textContent = hidden ? 'Show all responses ↓' : 'Hide responses ↑';
+});
+
+// Load on start, then auto-refresh every 60s
+init();
+setInterval(init, 60000);
+</script>
+</body>
+</html>
