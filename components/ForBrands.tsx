@@ -8,10 +8,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const cards = [
-  { title: "You're building a consumer brand", body: 'Food, beverage, pantry, snacking, baby, wellness or premium consumer goods.' },
-  { title: 'You want customers, not impressions', body: 'You need real buyers, real feedback and repeat purchase potential.' },
-  { title: 'You need data before you scale', body: 'You want first-party data built from real customer interactions, not assumptions.' },
-  { title: "You're preparing for retail", body: 'You need velocity, validation and demand proof before bigger ranging conversations.' },
+  { title: 'Consumer brands with growth ambitions', body: 'From emerging challenger brands to established category leaders across food, beverage, snacking, wellness, baby, lifestyle and premium consumer goods.' },
+  { title: 'Customers, not impressions', body: 'Acquire real customers through genuine purchase experiences that generate revenue, loyalty and long-term brand advocacy — not just awareness.' },
+  { title: 'Data before decisions', body: 'Build first-party customer data, product validation and commercial intelligence from real buying behaviour — not assumptions.' },
+  { title: 'Retail-ready proof', body: 'Generate the sales velocity, demand validation and market evidence needed to accelerate ecommerce growth, secure retail ranging and expand into new markets.' },
 ]
 
 export default function ForBrands() {
@@ -40,12 +40,10 @@ export default function ForBrands() {
             className="font-display font-bold text-cream mb-5"
             style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)', lineHeight: '1.08', letterSpacing: '-0.03em' }}
           >
-            Built for founders who are done
-            <br />
-            <span style={{ color: '#EAB308' }}>waiting for permission</span> to grow.
+            Built for <span style={{ color: '#EAB308' }}>ambitious consumer brands</span>.
           </h2>
           <p className="text-base leading-relaxed max-w-2xl" style={{ color: '#96B0C8' }}>
-            If you&apos;ve got a product customers need to try, ADC gives you a way to get it into their hands, learn what works and build the proof to scale.
+            Whether launching, refreshing, expanding or preparing for retail, ADC provides the customers, commercial intelligence and proof needed to scale with confidence.
           </p>
         </div>
 

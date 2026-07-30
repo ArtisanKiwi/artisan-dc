@@ -3,35 +3,57 @@
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 
-const steps = [
+type Step = {
+  tagline: string
+  heading: string
+  description: string
+  image: string
+  bullets?: string[]
+}
+
+const steps: Step[] = [
   {
     tagline: '01 / Launch',
-    heading: 'Launch across 100+ locations',
-    description: 'Your brand goes live across selected shows, markets, events and mall activations chosen for audience fit, footfall and commercial potential.',
+    heading: 'Launch where your customers already are',
+    description: "Deploy your brand across Australia's and New Zealand's leading food shows, consumer events, mall activations and experiential campaigns — selected for audience fit, footfall and commercial potential.",
     image: '/launch.png',
   },
   {
-    tagline: '02 / Sell',
-    heading: 'Direct sales from day one',
-    description: 'Trained teams sample, educate and sell your product directly to high-intent buyers in person. Real revenue, no middlemen.',
+    tagline: '02 / Engage',
+    heading: 'Engage to generate sales and acquire customers',
+    description: 'Our trained teams engage, educate and sell directly to high-intent consumers. Every activation generates immediate revenue while introducing your brand to thousands of potential long-term customers.',
     image: '/sell.jpg',
   },
   {
     tagline: '03 / Capture',
     heading: 'Build your customer data asset',
-    description: 'Every interaction builds your owned customer data, including emails, preferences, purchase behaviour and product feedback.',
+    description: 'Every interaction grows your first-party database through email capture, purchase behaviour, customer demographics, survey responses, product feedback and consumer preferences.',
     image: '/capture.png',
   },
   {
-    tagline: '04 / Retain',
-    heading: 'Turn buyers into repeat customers',
-    description: 'Captured data feeds remarketing, ecommerce growth and repeat purchase from customers who already know your brand.',
+    tagline: '04 / Learn',
+    heading: 'Turn customer interactions into commercial intelligence',
+    description: 'Every activation generates actionable insights to improve your business.',
+    bullets: [
+      'SKU and sales performance',
+      'Bundle and pricing optimisation',
+      'Customer demographics and buying behaviour',
+      'Survey insights and product feedback',
+      'AI-powered sentiment analysis',
+      'Product validation and NPD opportunities',
+    ],
     image: '/retain.png',
   },
   {
-    tagline: '05 / Scale',
-    heading: 'Scale with proof behind you',
-    description: 'Live sales, customer feedback and velocity data give your brand the proof needed to grow across ecommerce, wholesale and retail.',
+    tagline: '05 / Nurture',
+    heading: 'Build loyal customers and brand communities',
+    description: 'Turn first-time buyers into repeat customers through email marketing, community building, customer feedback loops and personalised engagement. Increase customer lifetime value while creating loyal brand advocates who fuel sustainable long-term growth.',
+    image: '/capture.png',
+  },
+  {
+    tagline: '06 / Scale',
+    heading: 'Grow with commercial proof',
+    description: 'Use real customer data, sales velocity and market validation to drive demand across ecommerce, wholesale and major retail channels — backed by evidence, not assumptions.',
     image: '/scale.jpg',
   },
 ]
@@ -84,10 +106,10 @@ export default function HowItWorks() {
                 className="font-display font-bold text-cream mb-2"
                 style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)', lineHeight: '1.08', letterSpacing: '-0.03em' }}
               >
-                How it Works
+                How the ADC Growth Engine Works
               </h2>
               <p className="text-base leading-relaxed" style={{ color: '#96B0C8' }}>
-                Five steps from launch to scale.
+                Launch &gt; Sell &gt; Capture &gt; Learn &gt; Nurture &gt; Scale
               </p>
             </div>
             <div className="relative w-full rounded-2xl overflow-hidden" style={{ aspectRatio: '3/2' }}>
@@ -134,6 +156,17 @@ export default function HowItWorks() {
                   {step.heading}
                 </h2>
                 <p style={{ color: '#96B0C8', lineHeight: '1.7' }}>{step.description}</p>
+
+                {step.bullets && (
+                  <ul className="mt-4 space-y-1.5">
+                    {step.bullets.map((b, bi) => (
+                      <li key={bi} className="flex items-start gap-2 text-sm" style={{ color: '#96B0C8', lineHeight: '1.6' }}>
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full" style={{ background: '#EAB308' }} />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
                 {/* Mobile image */}
                 <div className="mt-8 block w-full md:hidden rounded-xl overflow-hidden" style={{ aspectRatio: '3/2' }}>

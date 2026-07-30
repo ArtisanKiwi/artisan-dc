@@ -1,24 +1,5 @@
 'use client'
 
-const subHeadings = [
-  {
-    title: "You don't own the customer",
-    description: 'Retail owns the relationship, the data and the repeat purchase pathway.',
-  },
-  {
-    title: 'Margins get compressed',
-    description: 'Shelf fees, co-op spend and slow payment terms erode the economics before momentum can build.',
-  },
-  {
-    title: "You don't get real customer data",
-    description: "Aggregate sales numbers don't tell you who bought, why they bought or how to bring them back.",
-  },
-  {
-    title: 'Incumbents control the shelf',
-    description: 'Retail access is gatekept, expensive and difficult to scale without proven demand.',
-  },
-]
-
 export default function Problem() {
   return (
     <section className="px-[5%] py-16 md:py-24 lg:py-28" style={{ background: '#0D1B2A' }}>
@@ -29,26 +10,24 @@ export default function Problem() {
             className="font-display font-bold text-cream"
             style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)', lineHeight: '1.08', letterSpacing: '-0.03em' }}
           >
-            We&apos;re on a mission to fix a broken retail model.
+            Traditional retail is broken.
           </h2>
 
-          <div>
-            <p className="mb-8 text-base leading-relaxed" style={{ color: '#96B0C8' }}>
-              Most consumer brands don&apos;t fail because the product is wrong. They fail because getting in front of the right customers, owning the relationship and proving demand at scale is harder than it should be.
+          <div className="space-y-5 text-base leading-relaxed" style={{ color: '#96B0C8' }}>
+            <p>Launching a consumer brand has never been easier.</p>
+            <p className="font-semibold text-cream" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)' }}>
+              Scaling one has never been harder.
             </p>
-            <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
-              {subHeadings.map((item, i) => (
-                <div key={i}>
-                  <h3
-                    className="mb-2 font-display font-semibold text-cream"
-                    style={{ fontSize: '1rem', lineHeight: '1.4' }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed" style={{ color: '#96B0C8' }}>{item.description}</p>
-                </div>
-              ))}
+            <p>Most brands don&apos;t fail because consumers don&apos;t want the product.</p>
+            <p>They fail because they never own the customer relationship.</p>
+            <div className="border-l-2 pl-5 space-y-2 my-6" style={{ borderColor: '#EAB308' }}>
+              <p>Retail owns the customer.</p>
+              <p>Advertising platforms own the audience.</p>
+              <p>Research companies own the insights.</p>
             </div>
+            <p className="font-semibold text-cream" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)' }}>
+              ADC changes that.
+            </p>
           </div>
 
         </div>

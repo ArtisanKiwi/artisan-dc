@@ -22,16 +22,21 @@ export default function Hero() {
       <div className="relative z-10 px-[5%]">
         <div className="container-wide">
           <div className="flex min-h-[32rem] flex-col items-start justify-center p-8 md:min-h-[44rem] md:p-16">
-            <div className="w-full max-w-lg">
+            <div className="w-full max-w-xl">
               <h1
-                className="font-display font-bold text-cream mb-5 md:mb-6"
-                style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', lineHeight: '1.05', letterSpacing: '-0.03em' }}
+                className="font-display font-bold text-cream mb-4 md:mb-5"
+                style={{ fontSize: 'clamp(2.2rem, 4.5vw, 4rem)', lineHeight: '1.06', letterSpacing: '-0.03em' }}
               >
-                Helping consumer brands scale across{' '}
-                <span className="gold-text">Australia and New Zealand.</span>
+                The Direct Commerce Growth Platform for Consumer Brands
               </h1>
-              <p style={{ color: '#96B0C8', fontSize: 'clamp(1rem, 1.5vw, 1.1rem)', lineHeight: '1.7' }}>
-                ADC connects emerging consumer brands with millions of customers through direct selling shows and activations. Real buyers, real data, real growth.
+              <p
+                className="mb-5 font-semibold"
+                style={{ color: '#EAB308', fontSize: 'clamp(0.85rem, 1.2vw, 0.95rem)', lineHeight: '1.7', letterSpacing: '0.01em' }}
+              >
+                Acquire customers. Validate products. Build community. Own first-party data. Scale with confidence.
+              </p>
+              <p style={{ color: '#96B0C8', fontSize: 'clamp(0.95rem, 1.4vw, 1.05rem)', lineHeight: '1.75' }}>
+                ARTISAN Direct Commerce (ADC) combines live commerce, customer acquisition and commercial intelligence into one integrated platform — helping consumer brands generate revenue, build loyal customer communities, own their customer data and create the retail-ready proof needed to scale with confidence.
               </p>
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-4 md:mt-8">
