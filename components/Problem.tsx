@@ -13,21 +13,15 @@ export default function Problem() {
             Traditional retail is broken.
           </h2>
 
-          <div className="space-y-5 text-base leading-relaxed" style={{ color: '#96B0C8' }}>
+          <div className="space-y-4 text-base leading-relaxed" style={{ color: '#96B0C8' }}>
             <p>Launching a consumer brand has never been easier.</p>
-            <p className="font-semibold text-cream" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)' }}>
-              Scaling one has never been harder.
-            </p>
+            <p>Scaling one has never been harder.</p>
             <p>Most brands don&apos;t fail because consumers don&apos;t want the product.</p>
             <p>They fail because they never own the customer relationship.</p>
-            <div className="border-l-2 pl-5 space-y-2 my-6" style={{ borderColor: '#EAB308' }}>
-              <p>Retail owns the customer.</p>
-              <p>Advertising platforms own the audience.</p>
-              <p>Research companies own the insights.</p>
-            </div>
-            <p className="font-semibold text-cream" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)' }}>
-              ADC changes that.
-            </p>
+            <p>Retail owns the customer.</p>
+            <p>Advertising platforms own the audience.</p>
+            <p>Research companies own the insights.</p>
+            <p>ADC changes that.</p>
           </div>
 
         </div>
