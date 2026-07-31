@@ -22,6 +22,7 @@ type QuoteCard = {
   quote: string
   companyName: string
   imageSrc: string
+  logoBg?: string
 }
 
 type Card = PhotoCard | QuoteCard
@@ -43,6 +44,7 @@ const cards: Card[] = [
     quote: '"ADC team shows up every time! They gave us direct access to low cost new customers acquisition and customer insights. Combining sampling with sales to then drive demand into retail stores has been game changing for us, and a key convo starter with major supermarkets."',
     companyName: 'Best of the Bone',
     imageSrc: '/bestofthebone_partner_logo.png',
+    logoBg: '#FFFFFF',
   },
   {
     component: 'quote',
@@ -50,6 +52,7 @@ const cards: Card[] = [
     quote: '"The first-party data we captured through ADC activations is now the backbone of our ecommerce strategy. We know exactly who our customer is, what they buy and when they come back."',
     companyName: 'Crunch Time',
     imageSrc: '/crunchtime_partner_logo.png',
+    logoBg: '#F5B700',
   },
   {
     component: 'photo',
@@ -129,8 +132,8 @@ export default function Results() {
                     alt={card.companyName}
                     width={48}
                     height={48}
-                    className="w-10 h-10 rounded-full object-contain flex-shrink-0"
-                    style={{ background: 'rgba(65,90,119,0.1)' }}
+                    className="w-10 h-10 rounded-full object-contain flex-shrink-0 p-1"
+                    style={{ background: card.logoBg ?? 'rgba(65,90,119,0.1)' }}
                   />
                   <p className="text-sm font-semibold text-cream">{card.companyName}</p>
                 </div>
