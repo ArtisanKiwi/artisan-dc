@@ -20,8 +20,6 @@ type QuoteCard = {
   component: 'quote'
   numberOfStars: number
   quote: string
-  name: string
-  position: string
   companyName: string
   imageSrc: string
 }
@@ -42,20 +40,16 @@ const cards: Card[] = [
   {
     component: 'quote',
     numberOfStars: 5,
-    quote: '"ADC gave us direct access to customers we couldn\'t reach through retail. Within three months we had 2,000 new buyers and the velocity data to start conversations with major supermarkets."',
-    name: 'Brand Partner',
-    position: 'Founder',
-    companyName: 'Replace with brand name',
-    imageSrc: '/kiwiartisan_partner_logo.png',
+    quote: '"ADC team shows up every time! They gave us direct access to low cost new customers acquisition and customer insights. Combining sampling with sales to then drive demand into retail stores has been game changing for us, and a key convo starter with major supermarkets."',
+    companyName: 'Best of the Bone',
+    imageSrc: '/bestofthebone_partner_logo.png',
   },
   {
     component: 'quote',
     numberOfStars: 5,
     quote: '"The first-party data we captured through ADC activations is now the backbone of our ecommerce strategy. We know exactly who our customer is, what they buy and when they come back."',
-    name: 'Brand Partner',
-    position: 'Founder',
-    companyName: 'Replace with brand name',
-    imageSrc: '/petiteeats_partner_logo.png',
+    companyName: 'Crunch Time',
+    imageSrc: '/crunchtime_partner_logo.png',
   },
   {
     component: 'photo',
@@ -136,14 +130,9 @@ export default function Results() {
                     width={48}
                     height={48}
                     className="w-10 h-10 rounded-full object-contain flex-shrink-0"
-                    style={{ background: 'rgba(65,90,119,0.1)', filter: 'brightness(0) invert(1)', opacity: 0.5 }}
+                    style={{ background: 'rgba(65,90,119,0.1)' }}
                   />
-                  <div>
-                    <p className="text-sm font-semibold text-cream">{card.name}</p>
-                    <p className="text-xs" style={{ color: '#7A9EBB' }}>
-                      {card.position}, {card.companyName}
-                    </p>
-                  </div>
+                  <p className="text-sm font-semibold text-cream">{card.companyName}</p>
                 </div>
               </div>
             )
