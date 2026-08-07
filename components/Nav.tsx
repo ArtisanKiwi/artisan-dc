@@ -4,10 +4,15 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useMediaQuery } from '@relume_io/relume-ui'
 import { motion } from 'framer-motion'
+import { BiChevronDown } from 'react-icons/bi'
 
 const navLinks = [
   { url: '#how-it-works', title: 'How It Works' },
-  { url: '#for-brands', title: 'For Brands' },
+  {
+    url: '#for-brands',
+    title: 'For Brands',
+    children: [{ url: '/lifestyle', title: 'Lifestyle' }],
+  },
   { url: '#results', title: 'Results' },
   { url: '#contact', title: 'Contact' },
 ]
@@ -29,6 +34,7 @@ const bottomLineVariants = {
 
 export default function Nav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null)
   const isMobile = useMediaQuery('(max-width: 991px)')
 
   const openModal = () => {
@@ -67,17 +73,69 @@ export default function Nav() {
           className="overflow-hidden px-[5%] lg:flex lg:items-center lg:px-0 lg:[--height-closed:auto] lg:[--height-open:auto]"
           style={isMobile ? { background: 'rgba(13,27,42,0.98)' } : {}}
         >
-          {navLinks.map((link, i) => (
-            <a
-              key={i}
-              href={link.url}
-              className="block py-3 text-sm font-medium first:pt-7 lg:px-4 lg:py-2 first:lg:pt-2"
-              style={{ color: 'rgba(255,255,255,0.82)' }}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {link.title}
-            </a>
-          ))}
+          {navLinks.map((link, i) =>
+            link.children ? (
+              <div
+                key={i}
+                className="relative lg:px-1"
+                onMouseEnter={() => !isMobile && setOpenDropdown(i)}
+                onMouseLeave={() => !isMobile && setOpenDropdown(null)}
+              >
+                <div className="flex items-center first:pt-7 lg:px-3 lg:py-2 first:lg:pt-2">
+                  <a
+                    href={link.url}
+                    className="py-3 text-sm font-medium lg:py-0"
+                    style={{ color: 'rgba(255,255,255,0.82)' }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.title}
+                  </a>
+                  <button
+                    type="button"
+                    aria-label={`Toggle ${link.title} submenu`}
+                    className="ml-1 flex items-center py-3 lg:py-0"
+                    onClick={() => setOpenDropdown(openDropdown === i ? null : i)}
+                  >
+                    <BiChevronDown
+                      className="size-4 transition-transform"
+                      style={{ color: 'rgba(255,255,255,0.6)', transform: openDropdown === i ? 'rotate(180deg)' : 'none' }}
+                    />
+                  </button>
+                </div>
+                {openDropdown === i && (
+                  <div
+                    className="lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:min-w-[160px] lg:rounded-lg lg:py-1.5 lg:shadow-xl pl-4 lg:pl-0"
+                    style={{ background: '#0D1B2A', border: '1px solid rgba(65,90,119,0.25)' }}
+                  >
+                    {link.children.map((child, j) => (
+                      <a
+                        key={j}
+                        href={child.url}
+                        className="block py-2.5 text-sm lg:px-4 lg:py-2"
+                        style={{ color: 'rgba(255,255,255,0.75)' }}
+                        onClick={() => {
+                          setIsMobileMenuOpen(false)
+                          setOpenDropdown(null)
+                        }}
+                      >
+                        {child.title}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <a
+                key={i}
+                href={link.url}
+                className="block py-3 text-sm font-medium first:pt-7 lg:px-4 lg:py-2 first:lg:pt-2"
+                style={{ color: 'rgba(255,255,255,0.82)' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.title}
+              </a>
+            )
+          )}
           <div className="mt-6 flex flex-col items-start gap-4 pb-8 lg:ml-4 lg:mt-0 lg:flex-row lg:pb-0 lg:items-center">
             <button onClick={openModal} className="btn-primary text-sm">
               Become a brand partner

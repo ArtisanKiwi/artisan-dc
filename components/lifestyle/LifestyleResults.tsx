@@ -27,17 +27,17 @@ type QuoteCard = {
 
 type Card = PhotoCard | QuoteCard
 
-// NOTE: photo cards and quotes below are placeholders.
-// Swap for real Petite Eats / Ironclad activation photography and testimonials once supplied.
+// NOTE: quotes below are still placeholder text — swap for real
+// Petite Eats / Ironclad testimonials once supplied.
 const cards: Card[] = [
   {
     component: 'photo',
-    src: '/results_image_1.jpg',
+    src: '/lifestyle/results_image_1.jpg',
     alt: 'Lifestyle brand activation at consumer show',
   },
   {
     component: 'photo',
-    src: '/results_image_2.JPG',
+    src: '/lifestyle/results_image_2.JPG',
     alt: 'Sampling event',
   },
   {
@@ -58,12 +58,12 @@ const cards: Card[] = [
   },
   {
     component: 'photo',
-    src: '/results_image_3.png',
+    src: '/lifestyle/results_image_3.png',
     alt: 'Mall kiosk activation',
   },
   {
     component: 'photo',
-    src: '/results_image_4.png',
+    src: '/lifestyle/results_image_4.jpeg',
     alt: 'Market event',
   },
 ]

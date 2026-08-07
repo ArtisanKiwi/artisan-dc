@@ -11,7 +11,7 @@ type Step = {
   bullets?: string[]
 }
 
-// NOTE: images below are placeholders reused from the core site.
+// NOTE: steps 01 and 05 still reuse core-site placeholder images.
 // Swap for Petite Eats / Ironclad activation photography once supplied.
 const steps: Step[] = [
   {
@@ -24,13 +24,13 @@ const steps: Step[] = [
     tagline: '02 / Engage',
     heading: 'Engage to generate sales and acquire customers',
     description: 'Our trained teams engage, educate and sell directly to high-intent consumers. Every activation generates immediate revenue while introducing your brand to thousands of potential long-term customers.',
-    image: '/sell.jpg',
+    image: '/lifestyle/engage.JPG',
   },
   {
     tagline: '03 / Capture',
     heading: 'Build your customer data asset',
     description: 'Every interaction grows your first-party database through email capture, purchase behaviour, customer demographics, survey responses, product feedback and consumer preferences.',
-    image: '/capture.png',
+    image: '/lifestyle/capture.png',
   },
   {
     tagline: '04 / Learn',
@@ -50,13 +50,13 @@ const steps: Step[] = [
     tagline: '05 / Nurture',
     heading: 'Build loyal customers and brand communities',
     description: 'Turn first-time buyers into repeat customers through email marketing, community building, customer feedback loops and personalised engagement. Increase customer lifetime value while creating loyal brand advocates who fuel sustainable long-term growth.',
-    image: '/capture.png',
+    image: '/lifestyle/capture.png',
   },
   {
     tagline: '06 / Scale',
     heading: 'Grow with commercial proof',
     description: 'Use real customer data, sales velocity and market validation to drive demand across ecommerce, wholesale and major retail channels — backed by evidence, not assumptions.',
-    image: '/scale.jpg',
+    image: '/lifestyle/scale.png',
   },
 ]
 

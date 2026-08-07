@@ -2,7 +2,7 @@ import Nav from '@/components/Nav'
 import LifestyleHero from '@/components/lifestyle/LifestyleHero'
 import ProofBar from '@/components/ProofBar'
 import LifestyleProblem from '@/components/lifestyle/LifestyleProblem'
-import PlatformAdvantage from '@/components/PlatformAdvantage'
+import LifestylePlatformAdvantage from '@/components/lifestyle/LifestylePlatformAdvantage'
 import LifestyleResults from '@/components/lifestyle/LifestyleResults'
 import LifestyleHowItWorks from '@/components/lifestyle/LifestyleHowItWorks'
 import LifestyleForBrands from '@/components/lifestyle/LifestyleForBrands'
@@ -20,7 +20,7 @@ export default function LifestylePage() {
       <LifestyleHero />
       <ProofBar />
       <LifestyleProblem />
-      <PlatformAdvantage />
+      <LifestylePlatformAdvantage />
       <LifestyleResults />
       <LifestyleHowItWorks />
       <LifestyleForBrands />

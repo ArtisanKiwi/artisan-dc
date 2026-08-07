@@ -8,7 +8,7 @@ export default function LifestyleHero() {
       {/* Full-width background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image
-          src="/hero.png"
+          src="/lifestyle/hero-pe.jpg"
           alt="ADC lifestyle brand activation"
           fill
           priority
