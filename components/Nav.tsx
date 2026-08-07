@@ -70,7 +70,7 @@ export default function Nav() {
           initial="close"
           animate={isMobileMenuOpen ? 'open' : 'close'}
           transition={{ duration: 0.4 }}
-          className="overflow-hidden px-[5%] lg:flex lg:items-center lg:px-0 lg:[--height-closed:auto] lg:[--height-open:auto]"
+          className="overflow-hidden px-[5%] lg:flex lg:items-center lg:overflow-visible lg:px-0 lg:[--height-closed:auto] lg:[--height-open:auto]"
           style={isMobile ? { background: 'rgba(13,27,42,0.98)' } : {}}
         >
           {navLinks.map((link, i) =>
