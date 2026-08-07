@@ -103,24 +103,26 @@ export default function Nav() {
                   </button>
                 </div>
                 {openDropdown === i && (
-                  <div
-                    className="lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:min-w-[160px] lg:rounded-lg lg:py-1.5 lg:shadow-xl pl-4 lg:pl-0"
-                    style={{ background: '#0D1B2A', border: '1px solid rgba(65,90,119,0.25)' }}
-                  >
-                    {link.children.map((child, j) => (
-                      <a
-                        key={j}
-                        href={child.url}
-                        className="block py-2.5 text-sm lg:px-4 lg:py-2"
-                        style={{ color: 'rgba(255,255,255,0.75)' }}
-                        onClick={() => {
-                          setIsMobileMenuOpen(false)
-                          setOpenDropdown(null)
-                        }}
-                      >
-                        {child.title}
-                      </a>
-                    ))}
+                  <div className="lg:absolute lg:top-full lg:left-0 lg:pt-1 lg:min-w-[160px]">
+                    <div
+                      className="lg:rounded-lg lg:py-1.5 lg:shadow-xl pl-4 lg:pl-0"
+                      style={{ background: '#0D1B2A', border: '1px solid rgba(65,90,119,0.25)' }}
+                    >
+                      {link.children.map((child, j) => (
+                        <a
+                          key={j}
+                          href={child.url}
+                          className="block py-2.5 text-sm lg:px-4 lg:py-2"
+                          style={{ color: 'rgba(255,255,255,0.75)' }}
+                          onClick={() => {
+                            setIsMobileMenuOpen(false)
+                            setOpenDropdown(null)
+                          }}
+                        >
+                          {child.title}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
