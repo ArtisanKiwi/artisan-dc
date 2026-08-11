@@ -11,7 +11,10 @@ const navLinks = [
   {
     url: '#for-brands',
     title: 'For Brands',
-    children: [{ url: '/lifestyle', title: 'Lifestyle' }],
+    children: [
+      { url: '/lifestyle', title: 'Lifestyle' },
+      { url: '/beverage', title: 'Beverage' },
+    ],
   },
   { url: '#results', title: 'Results' },
   { url: '#contact', title: 'Contact' },
