@@ -8,7 +8,7 @@ export default function BeverageHero() {
       {/* Full-width background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image
-          src="/hero.png"
+          src="/beverage/bev_hero.png"
           alt="ADC beverage brand activation"
           fill
           priority
