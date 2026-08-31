@@ -1,12 +1,12 @@
 import Nav from '@/components/Nav'
-import Hero from '@/components/Hero'
+import BeverageHero from '@/components/beverage/BeverageHero'
 import ProofBar from '@/components/ProofBar'
 import Problem from '@/components/Problem'
 import PlatformAdvantage from '@/components/PlatformAdvantage'
 import HowItWorks from '@/components/HowItWorks'
 import ForBrands from '@/components/ForBrands'
 import Comparison from '@/components/Comparison'
-import Results from '@/components/Results'
+import BeverageResults from '@/components/beverage/BeverageResults'
 import Stats from '@/components/Stats'
 import FinalCTA from '@/components/FinalCTA'
 import Footer from '@/components/Footer'
@@ -17,11 +17,11 @@ export default function BeveragePage() {
   return (
     <main>
       <Nav />
-      <Hero />
+      <BeverageHero />
       <ProofBar />
       <Problem />
       <PlatformAdvantage />
-      <Results />
+      <BeverageResults />
       <HowItWorks />
       <ForBrands />
       <Comparison />
