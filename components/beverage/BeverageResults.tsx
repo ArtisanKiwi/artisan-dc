@@ -32,7 +32,7 @@ type Card = PhotoCard | QuoteCard
 const cards: Card[] = [
   {
     component: 'photo',
-    src: '/beverage/seoul-image.png',
+    src: '/beverage/seoul-v2.png',
     alt: 'Beverage brand activation at consumer show',
   },
   {
